@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-guad <yel-guad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_linee(int fd, char *res)
 {
@@ -78,18 +78,18 @@ char	*get_rest(char *buff)
 
 char	*get_next_line(int fd)
 {
-	static char	*buff;
+	static char	*buff[1024];
 	char		*line;
 	char		*tmp;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1024)
 		return (NULL);
-	buff = get_linee(fd, buff);
-	if (!buff)
+	buff[fd] = get_linee(fd, buff[fd]);
+	if (!buff[fd])
 		return (NULL);
-	line = get_the_line(buff);
-	tmp = buff;
-	buff = get_rest(buff);
+	line = get_the_line(buff[fd]);
+	tmp = buff[fd];
+	buff[fd] = get_rest(buff[fd]);
 	free(tmp);
 	return (line);
 }
