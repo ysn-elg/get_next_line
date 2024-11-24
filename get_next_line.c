@@ -24,7 +24,7 @@ char	*get_linee(int fd, char *res)
 	while (1)
 	{
 		i = read(fd, buff, BUFFER_SIZE);
-		if (i == -1)
+		if (i == -1 || (i == 0 && !res))	
 			return (free(buff), NULL);
 		if (i == 0)
 			break ;
