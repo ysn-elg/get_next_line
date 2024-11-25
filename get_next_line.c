@@ -31,6 +31,8 @@ char	*get_linee(int fd, char *res)
 		buff[i] = '\0';
 		tmp = res;
 		res = ft_strjoin(res, buff);
+		if (!res)
+			return (free(buff), NULL);
 		free(tmp);
 		if (ft_strchr(buff, '\n'))
 			break ;
@@ -69,10 +71,7 @@ char	*get_rest(char *buff)
 	if (!res)
 		return (NULL);
 	if (!*res)
-	{
-		free(res);
-		return (NULL);
-	}
+		return (free(res), NULL);
 	return (res);
 }
 
@@ -86,7 +85,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buff = get_linee(fd, buff);
 	if (!buff)
-		return (NULL);
+		return (free(buff), NULL);
 	line = get_the_line(buff);
 	tmp = buff;
 	buff = get_rest(buff);
